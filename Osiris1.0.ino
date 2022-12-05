@@ -15,8 +15,8 @@ int Recuo = 10;
 
 //Calibrando sensores
 int CalInfra = 800;
-int distanciaMaxima = 200;
-int distanciaMinima = 100;
+int distanciaMaxima = 50;
+int distanciaMinima = 20;
 
 //Portas dos sensores 
 int TriggerFront = 3;
@@ -65,25 +65,27 @@ void loop()
    float distanciaFrente = distanceMeterACC.getDistanceCentimeters();//retorna a distancia em cm
    float distanciaAtras = distanceMeter.getDistanceCentimeters();//retorna a distancia traseira em cm
    
-  
-   Serial.print("centimetros Frente: ");
-   Serial.print(distanciaFrente);
-   Serial.print("   centimetros: ");
-   Serial.print(distanciaAtras);
-   Serial.print(" Ultra:");   
-   Serial.println(analogRead(Infra));
+   
 
-  if (analogRead(Infra) >= CalInfra){
+  
+   Serial.print("====== Centimetros Frente: ");
+    Serial.print(distanciaFrente);
+    Serial.print("  |   centimetros: ");
+    Serial.print(distanciaAtras);
+    Serial.println("    Loop ======");   
+   //Serial.println(analogRead(Infra));
+
+  /*if (analogRead(Infra) >= CalInfra){
     
     volta();
     
-  }
+  }*/
   
-  if (float distanciaFrente = distanceMeter.getDistanceCentimeters() <= distanciaMinima){
+  if (distanciaFrente = distanceMeterACC.getDistanceCentimeters() <= distanciaMinima){
     
    ataca();
     
-  }else if (float distanciaFrente = distanceMeter.getDistanceCentimeters() >= distanciaMaxima){
+  }else if (distanciaFrente = distanceMeterACC.getDistanceCentimeters() >= distanciaMinima){
     
     busca();
     
@@ -99,13 +101,18 @@ void ataca(){
   float distanciaFrente = distanceMeterACC.getDistanceCentimeters();//retorna a distancia em cm
   float distanciaAtras = distanceMeter.getDistanceCentimeters();//retorna a distancia traseira em cm
 
-  do{
+  /*do{
     distanceMeter.updateDistance();
     distanceMeterACC.updateDistanceNonBlock(currentAirTemperature, TemperatureScale::CELSIUS);
 
     drive.moveForward(500);
+    Serial.print("====== Centimetros Frente: ");
+    Serial.print(distanciaFrente);
+    Serial.print("  |   centimetros: ");
+    Serial.print(distanciaAtras);
+    Serial.println("    Ataca ======");    
     
-  }while(distanciaFrente < 10);
+  }while(distanciaFrente = distanceMeterACC.getDistanceCentimeters() <= distanciaMinima);*/
 
 }
 
@@ -115,12 +122,19 @@ void busca(){
 
  
   do{
+    
     distanceMeter.updateDistance();
     distanceMeterACC.updateDistanceNonBlock(currentAirTemperature, TemperatureScale::CELSIUS);
 
-    drive.turnRight(500);
-   
-  }while(distanciaFrente > 10);
+    drive.turnRight(100);
+    
+    Serial.print("====== Centimetros Frente: ");
+    Serial.print(distanciaFrente);
+    Serial.print("  |   centimetros: ");
+    Serial.print(distanciaAtras);
+    Serial.println("    Busca ======");
+
+  }while(distanciaFrente = distanceMeterACC.getDistanceCentimeters() >= distanciaMinima);
 
 }
 
@@ -134,12 +148,12 @@ void volta(){ //Ta caindo
 
   drive.moveForward(500);
   
-  Serial.println("Volta");
+  Serial.println("    Volta");
 
 }//Não ta mais
 
 void Esquivo(){
-
+  Serial.print("    Esquivo");
   drive.moveForward(500);
   drive.turnLeft(100);
 
